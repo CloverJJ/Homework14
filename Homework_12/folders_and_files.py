@@ -20,8 +20,8 @@ for data in films_awards:
             letter_dir = os.path.join(film_title_dir, letter)
             os.makedirs(letter_dir, exist_ok=True)
 
-        award_name = film_data.get('award_name', 'Unknown Award')
-        award = film_data.get('award', 'No Description')
+        award_name = film_data.get('award_name')
+        award = film_data.get('award')
 
         first_letter = award_name[0].upper()
 
