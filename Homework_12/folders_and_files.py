@@ -28,5 +28,13 @@ for data in films_awards:
         letter_dir = os.path.join(film_title_dir, first_letter)
 
         award_file_path = os.path.join(letter_dir, f"{award_name}.txt")
-        with open(award_file_path, 'a', encoding='utf-8') as file:
-            file.write(f"{award}\n")
+        if not os.path.exists(award_file_path):
+            with open(award_file_path, 'a', encoding='utf-8') as file:
+                file.write(f"{award}\n")
+        else:
+            with open(award_file_path, 'r', encoding='utf-8') as file:
+                content = file.read().splitlines()
+
+            if award not in content:
+                with open(award_file_path, 'a', encoding='utf-8') as file:
+                    file.write(f"{award}\n")
