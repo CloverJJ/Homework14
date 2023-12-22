@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* CSS для BPMN елементів */
+    .startEvent {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid black;
+      transform: rotate(45deg);
+    }
+
+    .task, .serviceTask {
+      width: 100px;
+      height: 50px;
+      border: 2px solid black;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    .endEvent {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid black;
+      position: relative;
+    }
+
+    .endEvent::before {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 20px;
+      background-color: black;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .endEvent::after {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: black;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+  <!-- Візуалізація BPMN елементів -->
+  <div class="startEvent"></div>
+  <div class="task">Task</div>
+  <div class="serviceTask">Service Task</div>
+  <div class="endEvent"></div>
+</body>
+</html>
