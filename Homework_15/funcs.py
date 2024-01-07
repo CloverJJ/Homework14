@@ -1,4 +1,3 @@
-
 import csv
 import ast
 
@@ -21,8 +20,11 @@ def search_by_genre(data, genre):
     genre = genre.lower()
     return [film for film in data if any(genre == g['genre'].lower() for g in ast.literal_eval(film['gen']))]
 
+def search_by_year(data, year):
+    return [film for film in data if film['year'] == year]
+
 def display_film_info(film):
-    print("Інформація про фільм:")
+    print("Повна інформація про фільм:")
     exclude = ['gen', 'more_like_this', 'keywords', 'type']
     for key, value in film.items():
         if key not in exclude:
@@ -31,3 +33,20 @@ def display_film_info(film):
 
 def print_border():
     print("--------------------")
+
+def save_data(file_name, films_data, fieldnames):
+    with open(file_name, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        if file.tell() == 0:
+            writer.writeheader()
+
+        for film in films_data:
+            writer.writerow(film)
+
+def add_new_film(fieldnames):
+    new_film = {}
+    for field in fieldnames:
+        new_value = input(f"Введіть {field}: ")
+        new_film[field] = new_value
+    return new_film

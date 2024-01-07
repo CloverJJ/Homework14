@@ -4,17 +4,28 @@ from funcs import (
     get_unique_genres_with_counts,
     search_by_genre,
     display_film_info,
-    print_border
+    print_border,
+    search_by_year,
+    save_data,
+    add_new_film
 )
 
 def main():
+
     file_name = 'films.csv'
     films_data = load_data(file_name)
+    fieldnames = [
+        'imdb_id', 'title', 'year', 'popularity', 'description', 'content_rating',
+        'movie_length', 'rating', 'created_at', 'trailer', 'image_url', 'release',
+        'plot', 'banner', 'type', 'more_like_this', 'gen', 'keywords'
+    ]
 
     print_border()
-    print("Оберіть режим пошуку:")
+    print("Оберіть режим :")
     print("1. Пошук за назвою")
     print("2. Пошук за жанром")
+    print("3. Пошук за роком")
+    print("4. Додати новий фільм")
     print_border()
 
     mode_choice = input("Введіть номер режиму: ")
@@ -81,8 +92,45 @@ def main():
         else:
             print("Введено некоректний номер жанру.")
 
-    else:
-        print("Введено некоректний номер режиму.")
+    elif mode_choice == '3':
+        year_query = input("Введіть рік фільму: ")
+        year_results = search_by_year(films_data, year_query)
+        if year_results:
+            print_border()
+            print(f"Результати пошуку за роком {year_query}:")
+            for idx, film in enumerate(year_results, start=1):
+                print(f"{idx}. {film['title']} ({film['year']})")
+            print_border()
+
+            choice = input("Оберіть номер фільму або 'exit' для виходу: ")
+            if choice.isdigit():
+                choice = int(choice)
+                if 1 <= choice <= len(year_results):
+                    display_film_info(year_results[choice - 1])
+                else:
+                    print("Номер фільму введено некоректно, будь ласка, вкажіть коректний номер фільму.")
+            elif choice.lower() == 'exit':
+                return
+            else:
+                print("Введено некоректні дані.")
+        else:
+            print(f"Фільмів за роком {year_query} не знайдено.")
+    elif mode_choice == '4':
+            new_film = add_new_film(fieldnames)
+            print("Перевірте введені дані:")
+            display_film_info(new_film)
+            print("Чи все вірно?")
+            print("1. Так")
+            print("2. Ні")
+            confirmation_choice = input("Виберіть номер: ")
+            if confirmation_choice == '1':
+                films_data.append(new_film)
+                save_data(file_name, [new_film], fieldnames)
+                print("Фільм успішно додано до бази даних.")
+            elif confirmation_choice == '2':
+                print("Додавання нового фільму скасовано.")
+            else:
+                print("Введено некоректний номер варіанту.")
 
 if __name__ == "__main__":
     main()
